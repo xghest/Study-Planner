@@ -9,11 +9,9 @@ from sqlalchemy import Column, Integer, String, Date
 from datetime import date, datetime
 from dotenv import load_dotenv
 
-import openai
 import os
+from .gemini import Gemini
 
-load_dotenv()
-openai.api_key = os.getenv("KEY")
 
 #Table 
 class TaskModel(Base):
@@ -116,6 +114,7 @@ def plan_with_ai(db: Session = Depends(get_db)):
     if not tasks:
         return {"plan": {}}
 
+    # Build task list text
     task_list_text = ""
     for t in tasks:
         task_line = f"- {t.title} (due {t.due}): {t.description}"
@@ -125,30 +124,44 @@ def plan_with_ai(db: Session = Depends(get_db)):
 
     today = datetime.today().date()
 
-    prompt = f"""
-I have the following tasks:
-{task_list_text}
-
-Please generate a daily plan starting from {today} until the latest due date.
-Distribute the tasks reasonably across days. Return ONLY valid JSON,
-with each date as a key (YYYY-MM-DD) and a list of task titles for that day.
-Do not include any explanations or extra text.
-"""
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.5,
-        max_tokens=1000
+    # ---- FIXED SYSTEM PROMPT ----
+    # Removed f-string braces around JSON example because they break formatting
+    system_prompt = (
+        "You are an AI task planner. I have the following tasks:\n\n"
+        f"{task_list_text}\n"
+        f"Create a daily plan starting from {today} until the latest due date.\n\n"
+        "IMPORTANT RULES: ALWAYS schedule work starting from the earliest day (today), even if the due date is far away. Make sure to cover every task.\n\n"
+        "Return ONLY valid JSON in this exact shape:\n"
+        "{\n"
+        "    \"YYYY-MM-DD\": [\"Task 1\", \"Task 2\"],\n"
+        "    \"YYYY-MM-DD\": [\"Task 3\"],\n"
+        "    ...\n"
+        "}Note that the Task here should just be the titles with first letter capitalized\n\n"
+        "No explanations. No extra text."
     )
 
-    plan_text = response.choices[0].message.content
+    # Initialize Gemini
+    gemini_api_key = os.getenv("KEY")
+    if not gemini_api_key:
+        raise ValueError("KEY environment variable not set.")
 
+    ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
+
+    # Get AI response
+    plan_text = ai_platform.chat("Create plan")
+
+    # Strip code fences if present
+    plan_text = plan_text.strip()
+    if plan_text.startswith("```") and plan_text.endswith("```"):
+        plan_text = "\n".join(plan_text.split("\n")[1:-1])
+
+    # Convert to JSON
     import json
     try:
         plan_json = json.loads(plan_text)
-    except:
+    except json.JSONDecodeError:
         plan_json = {"raw_text": plan_text}
 
     return {"plan": plan_json}
+
 

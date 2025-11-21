@@ -1,23 +1,16 @@
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
 
-# backend/app/database.py
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
-from sqlalchemy.orm import sessionmaker
+load_dotenv()
 
-DATABASE_URL = "sqlite:///./database.db"
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./database.db")
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-metadata = MetaData()
-
-tasks_table = Table(
-    "tasks",
-    metadata,
-    Column("id", Integer, primary_key=True, index=True),
-    Column("title", String, index=True),
+engine = create_engine(
+    DATABASE_URL, connect_args={"check_same_thread": False}
 )
-
-metadata.create_all(engine)
-
-# Session for synchronous DB operations
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()  # <- this fixes your import error
