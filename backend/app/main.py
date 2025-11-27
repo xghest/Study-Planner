@@ -64,6 +64,10 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+@app.get("/")
+def home():
+    return {"message": "Welcome to Study Pilot AI! Use /plan-with-ai to get your plan."}
 
 @app.get("/tasks", response_model=List[TaskOut])
 def get_tasks(db: Session = Depends(get_db)):
