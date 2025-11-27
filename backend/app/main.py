@@ -110,57 +110,21 @@ def delete_task(task_id: int, db: Session = Depends(get_db)):
 
 @app.get("/plan-with-ai")
 def plan_with_ai(db: Session = Depends(get_db)):
+    # Fetch tasks from DB
     tasks = db.query(TaskModel).all()
     if not tasks:
         return {"plan": {}}
 
-    # Build task list text
-    task_list_text = ""
-    for t in tasks:
-        task_line = f"- {t.title} (due {t.due}): {t.description}"
-        if t.full_note:
-            task_line += f" | Note: {t.full_note}"
-        task_list_text += task_line + "\n"
-
-    today = datetime.today().date()
-
-    # ---- FIXED SYSTEM PROMPT ----
-    # Removed f-string braces around JSON example because they break formatting
-    system_prompt = (
-        "You are an AI task planner. I have the following tasks:\n\n"
-        f"{task_list_text}\n"
-        f"Create a daily plan starting from {today} until the latest due date.\n\n"
-        "IMPORTANT RULES: ALWAYS schedule work starting from the earliest day (today), even if the due date is far away. Make sure to cover every task.\n\n"
-        "Return ONLY valid JSON in this exact shape:\n"
-        "{\n"
-        "    \"YYYY-MM-DD\": [\"Task 1\", \"Task 2\"],\n"
-        "    \"YYYY-MM-DD\": [\"Task 3\"],\n"
-        "    ...\n"
-        "}Note that the Task here should just be the titles with first letter capitalized\n\n"
-        "No explanations. No extra text."
-    )
-
-    # Initialize Gemini
+    # Initialize Gemini AI
     gemini_api_key = os.getenv("KEY")
     if not gemini_api_key:
         raise ValueError("KEY environment variable not set.")
 
-    ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
+    ai_platform = Gemini(api_key=gemini_api_key)
+    today = datetime.today().date()
 
-    # Get AI response
-    plan_text = ai_platform.chat("Create plan")
-
-    # Strip code fences if present
-    plan_text = plan_text.strip()
-    if plan_text.startswith("```") and plan_text.endswith("```"):
-        plan_text = "\n".join(plan_text.split("\n")[1:-1])
-
-    # Convert to JSON
-    import json
-    try:
-        plan_json = json.loads(plan_text)
-    except json.JSONDecodeError:
-        plan_json = {"raw_text": plan_text}
+    # Generate the plan using the AI class
+    plan_json = ai_platform.plan_tasks(tasks, start_date=today)
 
     return {"plan": plan_json}
 
