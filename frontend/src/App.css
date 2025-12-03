@@ -1,0 +1,184 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.page {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  font-family: "Inter", sans-serif;
+  color: #444;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.input-card h2,
+.ai-card h2 {
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.cute-btn {
+  margin-top: 1rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #ffd3e0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cute-btn:hover {
+  background: #ffb7cd;
+}
+
+.ai-btn {
+  display: block;
+  margin: 2rem auto;
+  padding: 12px 18px;
+  background: #cde8ff;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.ai-btn:hover {
+  background: #b2dbff;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  padding: 0.7rem;
+  background: #f8f8f8;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+}
+
+.plan-day {
+  margin-bottom: 1rem;
+}
+
+/* --- AI PLAN TABLE --- */
+
+.plan-table-container {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.plan-table th {
+  background: #ffe4f1;
+  padding: 12px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid #f5bad2;
+}
+
+.plan-table td {
+  padding: 12px;
+  vertical-align: top;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+/* Remove border from last row */
+.plan-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Task list inside table */
+.plan-table .task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-table .task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  padding: 4px 0;
+  margin: 0;
+}
+
+.task-icon {
+  font-size: 1rem;
+}
+
+textarea {
+  min-height: 80px;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: inherit;
+}
