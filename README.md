@@ -49,5 +49,12 @@ Click **“Generate Plan With AI”** to receive:
 
 ---
 
+## 🔮 Future Development
+
+In the future, this project may be expanded with a **user login system** so each person has their own tasks and personalized study plans.  
+Right now, the app works as one shared global planner — meaning all users see the same task list — but a private user system is planned for improved personalization.
+
+---
+
 ## 🚀 Live Demo  
 👉 https://studypilot-ai.netlify.app/
