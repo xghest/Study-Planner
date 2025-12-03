@@ -8,13 +8,15 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [ai, setAi] = useState({});
 
+  const API = process.env.REACT_APP_API_URL;
+
   // Fetch tasks from backend on mount
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/tasks")
+    fetch(`${API}/tasks`)
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error("Error fetching tasks:", err));
-  }, []);
+  }, [API]);
 
   // Add a new task
   const addTask = (title, description, due, fullNote, resetForm) => {
@@ -22,7 +24,7 @@ function App() {
 
     const dueDate = new Date(due);
 
-    fetch("http://127.0.0.1:8000/tasks", {
+    fetch(`${API}/tasks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -41,7 +43,7 @@ function App() {
 
   // Delete a task
   const deleteTask = (id) => {
-    fetch(`http://127.0.0.1:8000/tasks/${id}`, {
+    fetch(`${API}/tasks/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -56,7 +58,7 @@ function App() {
 
   // Generate AI plan
   const generatePlan = () => {
-    fetch("http://127.0.0.1:8000/plan-with-ai")
+    fetch(`${API}/plan-with-ai`)
       .then((res) => res.json())
       .then((data) => setAi(data.plan))
       .catch((err) => console.error("Error fetching AI plan:", err));
