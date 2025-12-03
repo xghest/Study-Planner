@@ -64,6 +64,10 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+@app.get("/")
+def read_root():
+    return {"message": "Backend is running!"}
 
 @app.get("/tasks", response_model=List[TaskOut])
 def get_tasks(db: Session = Depends(get_db)):
