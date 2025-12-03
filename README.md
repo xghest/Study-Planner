@@ -1,60 +1,59 @@
-# 🌸 StudyPilot AI — Smart Study Planner
+# StudyPilot AI — Smart Study Planner
 
-**StudyPilot AI** is a clean and simple study-planning app that helps you organize tasks and generate an AI-powered study plan based on your deadlines.
+StudyPilot AI is a clean and simple study-planning app that helps users organize tasks and generate an AI-powered study plan based on upcoming deadlines.
 
-🌐 **Live Demo:**  
+**Live Demo:**  
 https://studypilot-ai.netlify.app/
 
 ---
 
-## ✨ Features
+## Features
 
-### 📌 Add Tasks  
-Add assignments, projects, and study goals with:
-- A title  
+### Add Tasks
+Create assignments, projects, or study goals with:
+- Title  
 - Description  
 - Due date  
 - Optional notes  
 
-Your task appears instantly in the list.
+Tasks appear instantly in the list.
 
 ---
 
-### 📋 View All Tasks  
-All tasks stay neatly organized on the page so you can keep track of everything at a glance.
+### View All Tasks
+All tasks are displayed in a clean, organized list for easy tracking.
 
 ---
 
-### 🗑️ Delete Tasks  
-Remove tasks you no longer need with one click.  
-Perfect for keeping your workspace clean.
+### Delete Tasks
+Remove tasks with a single click to keep the workspace tidy.
 
 ---
 
-### 🤖 Generate AI Study Plan  
-Click **“Generate Plan With AI”** to receive:
-- A suggested focus for today  
-- A summary of your upcoming workload  
-- A structured study plan based on deadlines  
+### Generate AI Study Plan
+Selecting “Generate Plan With AI” provides:
+- A suggested focus for the day  
+- A summary of upcoming workload  
+- A structured plan based on deadlines  
 
 ---
 
-## 🎯 How to Use It
+## How to Use
 
 1. Visit the website  
-2. Add your tasks  
-3. Click **Generate Plan With AI**  
-4. Follow your personalized study plan  
-5. Stay organized and productive 🌟  
+2. Add tasks  
+3. Generate the AI study plan  
+4. Follow the personalized recommendations  
+5. Use the task list to stay organized  
 
 ---
 
-## 🔮 Future Development
+## Future Development
 
-In the future, this project may be expanded with a **user login system** so each person has their own tasks and personalized study plans.  
-Right now, the app works as one shared global planner — meaning all users see the same task list — but a private user system is planned for improved personalization.
+In the future, this project may include a dedicated user login system so each person has their own private set of tasks and personalized plans.  
+Currently, the app functions as a shared global planner, meaning all users see the same task list.
 
 ---
 
-## 🚀 Live Demo  
-👉 https://studypilot-ai.netlify.app/
+## Live Demo
+https://studypilot-ai.netlify.app/
